@@ -21,7 +21,8 @@ const getData = () => {
                 spinnerBox.classList.add('not-visible')
                 console.log(data)
                 data.forEach(el => {
-                    postsBox.innerHTML += `
+                    postsBox.innerHTML += 
+                `
                     <div class="card mb-2">
                         <div class="card-body">
                             <h5 class="card-title">${el.title}</h5>
@@ -29,16 +30,16 @@ const getData = () => {
                         </div>
                         <div class="card-footer">
                             <div class="row">
-                                <div class="col-1">
+                                <div class="col-2">
                                     <a href="#" class="btn btn-primary">Details</a>
                                 </div>
-                                <div class="col-1">
-                                    <a href="#" class="btn btn-primary">Like</a>
+                                <div class="col-2">
+                                    <a href="#" class="btn btn-primary">${el.liked ? `Unlike (${el.count})` : `Like (${el.count})`}</a>
                                 </div>
                             </div>
                         </div>
                   </div>
-                    `                               //importnat to use `` because you are adding multilines
+                `                               //importnat to use `` because you are adding multilines. You also need it on `unlike` and `like` to be able to add the counter
                 });
             }, 100)
             console.log(response.size)
