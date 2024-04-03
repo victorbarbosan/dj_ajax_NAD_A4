@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block scripts %}
+     <script src="{% static 'posts/main.js' %}" defer></script>  {% comment %} defer means that the script will only be executed after the page has finished loading  {% endcomment %}
+{% endblock scripts %}
+
+{% block title %}
+posts
+{% endblock title %}
+
+
+{% block content %}
+
+{% for obj in qs %}
+{{obj.title}} - {{obj.body}} <br>
+{% endfor %}
+
+
+{% endblock content %}
