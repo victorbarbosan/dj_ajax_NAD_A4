@@ -3,6 +3,7 @@ console.log('Hello world')
 
 const helloWorldBox = document.getElementById('hello-world')
 const postsBox = document.getElementById('posts-box')
+const spinnerBox = document.getElementById('spinner-box')
 
 
 $.ajax({
@@ -24,12 +25,16 @@ $.ajax({
     success: function(response){
         console.log(response)
         const data = response.data
-        console.log(data)
-        data.forEach(el => {
-            postsBox.innerHTML += `
-                ${el.title} - <b>${el.body}</b> <br>
-            `                               //importnat to use `` because you are adding multilines
-        });
+        setTimeout(()=>{
+            spinnerBox.classList.add('not-visible')
+            console.log(data)
+            data.forEach(el => {
+                postsBox.innerHTML += `
+                    ${el.title} - <b>${el.body}</b> <br>
+                `                               //importnat to use `` because you are adding multilines
+            });
+        }, 100)
+
     },
     error: function(error){
         console.log(error)
