@@ -2,6 +2,7 @@ console.log('Hello world')
 
 
 const helloWorldBox = document.getElementById('hello-world')
+const postsBox = document.getElementById('posts-box')
 
 
 $.ajax({
@@ -13,5 +14,24 @@ $.ajax({
     },
     error: function(error){
         console.log('error', error)
+    }
+})
+
+
+$.ajax({
+    type: 'GET',
+    url: '/data/',
+    success: function(response){
+        console.log(response)
+        const data = response.data
+        console.log(data)
+        data.forEach(el => {
+            postsBox.innerHTML += `
+                ${el.title} - <b>${el.body}</b> <br>
+            `                               //importnat to use `` because you are adding multilines
+        });
+    },
+    error: function(error){
+        console.log(error)
     }
 })
