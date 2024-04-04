@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block scripts %}
      <script src="{% static 'posts/main.js' %}" defer></script>  {% comment %} defer means that the script will only be executed after the page has finished loading  {% endcomment %}
@@ -22,13 +23,17 @@ posts
                 </div>
 
                 <div class="modal-body">
-                    ...
+                    <form id="post-form">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">+ adds</button>
+                        </div>
+                    </form>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success">+ adds</button>
-                </div>
+
 
             </div>
         </div>

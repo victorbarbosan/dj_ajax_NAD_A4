@@ -2,12 +2,27 @@ from django.shortcuts import render
 from .models import Post
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+from .forms import PostForm
+from profiles.models import Profile
 # Create your views here.
 
 
 def post_list_and_create(request):
-    qs = Post.objects.all()
-    return render(request, 'posts/main.html', {'qs':qs})
+    form = PostForm(request.POST or None)
+    
+    # the form has title and body. Here we add the author according to the request
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        if form.is_valid():
+            author = Profile.objects.get(user=request.user)
+            instance = form.save(commit=False)
+            instance.author = author
+            instance.save()
+    
+    context = {
+        'form': form,
+    }
+    
+    return render(request, 'posts/main.html', context)
 
 
 
