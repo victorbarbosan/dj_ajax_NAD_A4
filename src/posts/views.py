@@ -10,6 +10,7 @@ def post_list_and_create(request):
     return render(request, 'posts/main.html', {'qs':qs})
 
 
+
 def load_post_data_view(request, num_posts):
     visible = 3
     upper = num_posts
@@ -33,9 +34,11 @@ def load_post_data_view(request, num_posts):
     return JsonResponse({'data':data[lower:upper], 'size':size})
 
 
+
+# Change the button to Like or Unline
 @require_POST  
 def like_unlike_post(request):
-    # replacemente for is_ajax
+    # replacement for is_ajax
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         pk = request.POST.get('pk')
         obj = Post.objects.get(pk=pk) 
