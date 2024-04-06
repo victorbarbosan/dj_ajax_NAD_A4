@@ -12,11 +12,18 @@ def post_list_and_create(request):
     
     # the form has title and body. Here we add the author according to the request
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        
         if form.is_valid():
             author = Profile.objects.get(user=request.user)
             instance = form.save(commit=False)
             instance.author = author
             instance.save()
+            return JsonResponse({
+                'title': instance.title,
+                'body': instance.body,
+                'author': instance.author.user.username,
+                'id': instance.id,
+            })
     
     context = {
         'form': form,
@@ -27,26 +34,28 @@ def post_list_and_create(request):
 
 
 def load_post_data_view(request, num_posts):
-    visible = 3
-    upper = num_posts
-    lower = upper - visible
-    size = Post.objects.all().count()
-    
-    
-    qs = Post.objects.all()
-    data = []
-    for obj in qs:
-        item = {
-            'id': obj.id,
-            'title': obj.title,
-            'body': obj.body,
-            'liked': True if request.user in obj.liked.all() else False,
-            'count': obj.like_count,
-            'author': obj.author.user.username
-        }
-        data.append(item)
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            
+        visible = 3
+        upper = num_posts
+        lower = upper - visible
+        size = Post.objects.all().count()
         
-    return JsonResponse({'data':data[lower:upper], 'size':size})
+        
+        qs = Post.objects.all()
+        data = []
+        for obj in qs:
+            item = {
+                'id': obj.id,
+                'title': obj.title,
+                'body': obj.body,
+                'liked': True if request.user in obj.liked.all() else False,
+                'count': obj.like_count,
+                'author': obj.author.user.username
+            }
+            data.append(item)
+            
+        return JsonResponse({'data':data[lower:upper], 'size':size})
 
 
 
