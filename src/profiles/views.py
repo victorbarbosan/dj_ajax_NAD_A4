@@ -16,7 +16,7 @@ def my_profile_view(request):
                 'bio': instance.bio,
                 'avatar': instance.avatar.url,
                 'user': instance.user.username,
-            })
+            }),
     context = {
         'obj': obj,
         'form': form,
